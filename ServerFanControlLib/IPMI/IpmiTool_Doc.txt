@@ -1,0 +1,1805 @@
+﻿ipmitool (1m)
+Name
+ipmitool - enabled devices
+Synopsis
+ipmitool [-c|-h|-d N|-v|-V] -I open <command>
+
+ipmitool [-c|-h|-v|-V] -I lan -H <hostname>
+[-p <port>]
+[-U <username>]
+[-A <authtype>]
+[-L <privlvl>]
+[-a|-E|-P|-f <password>]
+[-o <oemtype>]
+[-O <sel oem>]
+[-e <esc_char>]
+[-N <sec>]
+[-R <count>]
+<command>
+
+ipmitool [-c|-h|-v|-V] -I lanplus -H <hostname>
+[-p <port>]
+[-U <username>]
+[-L <privlvl>]
+[-a|-E|-P|-f <password>]
+[-o <oemtype>]
+[-O <sel oem>]
+[-C <ciphersuite>]
+[-Y|[-K|-k <kg_key>]
+[-y <hex_kg_key>]
+[-e <esc_char>]
+[-N <sec>]
+[-R <count>]
+<command>
+Description
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+NAME
+     ipmitool - utility for controlling IPMI-enabled devices
+
+SYNOPSIS
+     ipmitool [-c|-h|-d N|-v|-V] -I open <command>
+
+     ipmitool [-c|-h|-v|-V] -I lan -H <hostname>
+              [-p <port>]
+              [-U <username>]
+              [-A <authtype>]
+              [-L <privlvl>]
+              [-a|-E|-P|-f <password>]
+              [-o <oemtype>]
+              [-O <sel oem>]
+              [-e <esc_char>]
+              [-N <sec>]
+              [-R <count>]
+              <command>
+
+     ipmitool [-c|-h|-v|-V] -I lanplus -H <hostname>
+              [-p <port>]
+              [-U <username>]
+              [-L <privlvl>]
+              [-a|-E|-P|-f <password>]
+              [-o <oemtype>]
+              [-O <sel oem>]
+              [-C <ciphersuite>]
+              [-Y|[-K|-k <kg_key>]
+              [-y <hex_kg_key>]
+              [-e <esc_char>]
+              [-N <sec>]
+              [-R <count>]
+              <command>
+
+DESCRIPTION
+     This program lets you manage Intelligent Platform Management
+     Interface (IPMI) functions of either the local system, via a
+     kernel  device  driver,  or a remote system, using IPMI V1.5
+     and IPMI v2.0. These functions include printing FRU informa-
+     tion, LAN configuration, sensor readings, and remote chassis
+     power control.
+
+     IPMI management of a local system interface requires a  com-
+     patible  IPMI  kernel driver to be installed and configured.
+     On Linux this driver is called OpenIPMI and it  is  included
+     in standard distributions.  On Solaris this driver is called
+     BMC and is inclued in Solaris 10.  Management  of  a  remote
+     station  requires  the IPMI-over-LAN interface to be enabled
+     and configured.  Depending on the particular requirements of
+     each  system  it may be possible to enable the LAN interface
+     using ipmitool over the system interface.
+
+
+
+
+Duncan Laurie             Last change:                          1
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+OPTIONS
+     -a   Prompt for the remote server password.
+
+     -A <authtype>
+          Specify an authentication type to use  during  IPMIv1.5
+          lan  session  activation.   Supported  types  are NONE,
+          PASSWORD, MD2, MD5, or OEM.
+
+     -c   Present output in CSV (comma separated  variable)  for-
+          mat.  This is not available with all commands.
+
+     -e <sol_escape_char>
+          Use  supplied  character for SOL session escape charac-
+          ter.  The default is to use ~  but  this  can  conflict
+          with ssh sessions.
+
+     -K   Read Kg key from IPMI_KGKEY environment variable.
+
+     -k <key>
+          Use  supplied  Kg  key  for IPMIv2 authentication.  The
+          default is not to use any Kg key.
+
+     -y <hex key>
+          Use supplied Kg key for IPMIv2 authentication. The  key
+          is  expected  in  hexadecimal format and can be used to
+          specify keys with non-printable  characters.  E.g.  '-k
+          PASSWORD'  and  '-y  50415353574F5244'  are equivalent.
+          The default is not to use any Kg key.
+
+     -Y   Prompt for the Kg key for IPMIv2 authentication.
+
+     -C <ciphersuite>
+          The  remote  server  authentication,   integrity,   and
+          encryption algorithms to use for IPMIv2 lanplus connec-
+          tions.  See table 22-19 in  the  IPMIv2  specification.
+          The default is 3 which specifies RAKP-HMAC-SHA1 authen-
+          tication,  HMAC-SHA1-96  integrity,   and   AES-CBC-128
+          encryption algorightms.
+
+     -E   The remote server password is specified by the environ-
+          ment variable IPMI_PASSWORD.
+
+     -f <password_file>
+          Specifies a file containing the remote server password.
+          If this option is absent, or if password_file is empty,
+          the password will default to NULL.
+
+     -h   Get basic usage help from the command line.
+
+     -H <address>
+          Remote server address, can be IP address  or  hostname.
+          This option is required for lan and lanplus interfaces.
+
+
+
+Duncan Laurie             Last change:                          2
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+     -I <interface>
+          Selects IPMI interface to  use.   Supported  interfaces
+          that are compiled in are visible in the usage help out-
+          put.
+
+     -L <privlvl>
+          Force session privilege level.  Can be CALLBACK,  USER,
+          OPERATOR, ADMINISTRATOR. Default is ADMINISTRATOR.
+
+     -m <local_address>
+          Set  the  local  IPMB address.  The default is 0x20 and
+          there should be no need to change it for normal  opera-
+          tion.
+
+     -N <sec>
+          Specify  nr.  of  seconds  between  retransmissions  of
+          lan/lanplus messages.  Default are 2  seconds  for  lan
+          and 1 second for lanplus interfaces.
+
+     -o <oemtype>
+          Select  OEM  type  to  support.   This usually involves
+          minor hacks in place in the code to work around  quirks
+          in  various  BMCs  from  various manufacturers.  Use -o
+          list to see a list of current supported OEM types.
+
+     -O <sel oem>
+          Open selected file and read OEM SEL event  descriptions
+          to  be  used during SEL listings.  See examples in con-
+          trib dir for file format.
+
+     -p <port>
+          Remote server UDP port to connect to.  Default is  623.
+
+     -P <password>
+          Remote  server  password  is  specified  on the command
+          line.  If supported it will be obscured in the  process
+          list.   Note! Specifying the password as a command line
+          option is not recommended.
+
+     -R <count>
+          Set the number of  retries  for  lan/lanplus  interface
+          (default=4).
+
+     -S <sdr_cache_file>
+          Use local file for remote SDR cache.  Using a local SDR
+          cache can drastically increase performance for commands
+          that  require  knowledge  of  the entire SDR to perform
+          their function.  Local SDR cache from a  remote  system
+          can be created with the sdr dump command.
+
+     -t <target_address>
+          Bridge IPMI requests to the remote target address.
+
+
+
+Duncan Laurie             Last change:                          3
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+     -U <username>
+          Remote server username, default is NULL user.
+
+     -d N Use  device  number  N  to  specify  the /dev/ipmiN (or
+          /dev/ipmi/N or /dev/ipmidev/N) device to  use  for  in-
+          band  BMC communication.  Used to target a specific BMC
+          on a multi-node,  multi-BMC  system  through  the  ipmi
+          device driver interface.  Default is 0.
+
+     -v   Increase  verbose  output  level.   This  option may be
+          specified multiple times to increase the level of debug
+          output.   If given three times you will get hexdumps of
+          all incoming and outgoing packets.
+
+     -V   Display version information.
+
+
+     If no password method is specified then ipmitool will prompt
+     the  user  for  a password. If no password is entered at the
+     prompt, the remote server password will default to NULL.
+
+SECURITY
+     There are several security issues be  be  considered  before
+     enabling  the  IPMI  LAN interface. A remote station has the
+     ability to control a system's power state as well  as  being
+     able  to gather certain platform information. To reduce vul-
+     nerability it is strongly advised that the IPMI  LAN  inter-
+     face  only be enabled in 'trusted' environments where system
+     security is not an issue  or  where  there  is  a  dedicated
+     secure 'management network'.
+
+     Further  it  is  strongly advised that you should not enable
+     IPMI for remote access without setting a password, and  that
+     that  password  should not be the same as any other password
+     on that system.
+
+     When an IPMI password is changed on a  remote  machine  with
+     the  IPMIv1.5  lan interface the new password is sent across
+     the network as clear text.  This could be observed and  then
+     used  to  attack  the remote system.  It is thus recommended
+     that IPMI password management only  be  done  over  IPMIv2.0
+     lanplus  interface or the system interface on the local sta-
+     tion.
+
+     For IPMI v1.5, the maximum password length is 16 characters.
+     Passwords longer than 16 characters will be truncated.
+
+     For IPMI v2.0, the maximum password length is 20 characters;
+     longer passwords are truncated.
+
+COMMANDS
+     help This can be used to get command-line help  on  ipmitool
+
+
+
+Duncan Laurie             Last change:                          4
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+          commands.  It may also be placed at the end of commands
+          to get option usage help.
+
+          ipmitool help
+          Commands:
+                  raw          Send a RAW IPMI request and  print
+          response
+                  i2c          Send an I2C Master Write-Read com-
+          mand and print response
+                  spd          Print SPD  info  from  remote  I2C
+          device
+                  lan          Configure LAN Channels
+                  chassis       Get  chassis status and set power
+          state
+                  power        Shortcut to chassis power commands
+                  event        Send events to MC
+                  mc            Management  Controller status and
+          global enables
+                  sdr           Print  Sensor   Data   Repository
+          entries and readings
+                  sensor       Print detailed sensor information
+                  fru           Print  built-in  FRU and scan for
+          FRU locators
+                  sel          Print System Event Log (SEL)
+                  pef          Configure Platform Event Filtering
+          (PEF)
+                  sol           Configure  and  connect  IPMIv2.0
+          Serial-over-LAN
+                  tsol           Configure   and   connect   Tyan
+          IPMIv1.5 Serial-over-LAN
+                  isol           Configure   and   connect  Intel
+          IPMIv1.5 Serial-over-LAN
+                  user          Configure  Management  Controller
+          users
+                  channel       Configure  Management  Controller
+          channels
+                  dcmi         Data Center Management Interface
+                  session      Print session information
+                  sunoem       Manage Sun OEM Extensions
+                  kontronoem   Manage Kontron OEM Extensions
+                  picmg        Run a PICMG/ATA extended command
+                  firewall     Configure Firmware Firewall
+                  shell        Launch interactive IPMI shell
+                  exec         Run list of commands from file
+                  set          Set runtime variable for shell and
+          exec
+                  delloem      Manage Dell OEM Extensions.
+                  echo          Used  to  echo lines to stdout in
+          scripts
+                  ekanalyzer   run FRU-Ekeying analyzer using FRU
+          files
+                  ime          Upgrade/Query Intel ME firmware
+
+
+
+Duncan Laurie             Last change:                          5
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+                  hpm           Update HPM components using PICMG
+          HPM.1 file
+                  fwum          Update  IPMC  using  Kontron  OEM
+          Firmware Update Manager
+
+
+          ipmitool chassis help
+          Chassis  Commands:   status,  power,  identify, policy,
+          restart_cause, poh, bootdev, bootparam, selftest
+
+          ipmitool chassis power help
+          chassis power Commands: status, on, off, cycle,  reset,
+          diag, soft
+
+     bmc|mc
+
+          reset <warm|cold>
+
+               Instructs the BMC to perform a warm or cold reset.
+
+          guid  Display the Management Controller Globally Unique
+               IDentifier.
+
+          info
+
+               Displays   information  about  the  BMC  hardware,
+               including device revision, firmware revision, IPMI
+               version  supported,  manufacturer ID, and informa-
+               tion on additional device support.
+
+          watchdog
+
+               These commands allow a user to view and change the
+               current state of the watchdog timer.
+
+               get
+
+                    Show  current  Watchdog  Timer  settings  and
+                    countdown state.
+
+               reset
+
+                    Reset the Watchdog Timer to its  most  recent
+                    state and restart the countdown timer.
+
+               off
+
+                    Turn  off a currently running Watchdog count-
+                    down timer.
+
+          selftest
+
+
+
+
+Duncan Laurie             Last change:                          6
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               Check on the basic health of the BMC by  executing
+               the  Get  Self Test results command and report the
+               results.
+
+          getenables
+
+               Displays a list of the currently  enabled  options
+               for the BMC.
+
+          setenables <option>=[on|off]
+
+               Enables  or  disables the given option.  This com-
+               mand is only supported over the  system  interface
+               according  to  the  IPMI specification.  Currently
+               supported values for option include:
+
+               recv_msg_intr
+
+                    Receive Message Queue Interrupt
+
+               event_msg_intr
+
+                    Event Message Buffer Full Interrupt
+
+               event_msg
+
+                    Event Message Buffer
+
+               system_event_log
+
+                    System Event Logging
+
+               oem0
+
+                    OEM-Defined option #0
+
+               oem1
+
+                    OEM-Defined option #1
+
+               oem2
+
+                    OEM-Defined option #2
+
+     channel
+
+          authcap <channel number> <max priv>
+
+               Displays  information  about  the   authentication
+               capabilities of the selected channel at the speci-
+               fied privilege level.
+
+
+
+
+Duncan Laurie             Last change:                          7
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               Possible privilege levels are:
+                    1   Callback level
+                    2   User level
+                    3   Operator level
+                    4   Administrator level
+                    5   OEM Proprietary level
+
+          info [channel number]
+
+               Displays  information  about  the selected   chan-
+               nel.   If  no  channel  is  given  it will display
+               information about the currently used channel.
+
+               > ipmitool channel info
+               Channel 0xf info:
+                 Channel Medium Type   : System Interface
+                 Channel Protocol Type : KCS
+                 Session Support       : session-less
+                 Active Session Count  : 0
+                 Protocol Vendor ID    : 7154
+
+          getaccess <channel number> [<userid>]
+
+               Configure the given userid as the default  on  the
+               given  channel  number.  When the given channel is
+               subsequently used, the user is identified  implic-
+               itly by the given userid.
+
+          setaccess <channel number> <userid> [<callin=on|off>]
+               [<ipmi=on|off>]      [<link=on|off>]      [<privi-
+               lege=level>]
+
+               Configure user access  information  on  the  given
+               channel for the given userid.
+
+          getciphers <ipmi|sol> [<channel>]
+
+               Displays  the  list of cipher suites supported for
+               the given application (ipmi or sol) on  the  given
+               channel.
+
+     chassis
+
+          status
+
+               Displays information regarding the high-level sta-
+               tus of the system chassis and main  power  subsys-
+               tem.
+
+          poh
+
+               This   command  will  return  the  Power-On  Hours
+
+
+
+Duncan Laurie             Last change:                          8
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               counter.
+
+          identify <interval>
+
+               Control the front panel identify  light.   Default
+               interval  is  15 seconds.  Use 0 to turn off.  Use
+               "force" to turn on indefinitely.
+
+          restart_cause
+
+               Query the chassis for the cause of the last system
+               restart.
+
+          selftest
+
+               Check  on the basic health of the BMC by executing
+               the Get Self Test results command and  report  the
+               results.
+
+          policy
+
+               Set the chassis power policy in  the  event  power
+               failure.
+
+               list
+
+                    Return supported policies.
+
+               get
+
+                    Return current power policy.
+
+               always-on
+
+                    Turn on when power is restored.
+
+               previous
+
+                    Returned to  previous  state  when  power  is
+                    restored.
+
+               always-off
+
+                    Stay off after power is restored.
+
+          power
+
+               Performs a chassis control  command  to  view  and
+               change the power state.
+
+               status
+
+
+
+
+Duncan Laurie             Last change:                          9
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+                    Show current chassis power status.
+
+               on
+
+                    Power up chassis.
+
+               off
+
+                    Power  down  chassis  into  soft  off  (S4/S5
+                    state).   WARNING: This command does not ini-
+                    tiate a clean shutdown of the operating  sys-
+                    tem prior to powering down the system.
+
+               cycle
+
+                    Provides  a  power off interval of at least 1
+                    second.  No action should  occur  if  chassis
+                    power  is  in  S4/S5  state, but it is recom-
+                    mended to check power state  first  and  only
+                    issue  a  power  cycle command if the  system
+                    power is on or  in  lower  sleep  state  than
+                    S4/S5.
+
+               reset
+
+                    This command will perform a hard reset.
+
+               diag
+
+                    Pulse  a  diagnostic interrupt (NMI) directly
+                    to the processor(s).
+
+               soft
+
+                    Initiate a  soft-shutdown  of  OS  via  ACPI.
+                    This  can  be  done in a number of ways, com-
+                    monly by simulating an overtemperture  or  by
+                    simulating  a power button press.  It is nec-
+                    essary for there to be Operating System  sup-
+                    port  for ACPI and some sort of daemon watch-
+                    ing for events for this soft power to work.
+
+          bootdev
+
+               get
+
+                    Return current boot device.
+
+               <device> [<clear-cmos=yes|no>]
+                    [<options=help,...>]
+
+                    Request  the system to boot from an alternate
+
+
+
+Duncan Laurie             Last change:                         10
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+                    boot device on next reboot.   The  clear-cmos
+                    option,  if  supplied, will instruct the BIOS
+                    to clear its CMOS on the next reboot.   Vari-
+                    ous  options  may  be used to modify the boot
+                    device   settings.    Run    "bootdev    none
+                    options=help"  for  a  list of available boot
+                    device modifiers/options.
+
+                    Currently supported values for <device> are:
+
+                    none
+
+                         Do not change boot device
+
+                    pxe
+
+                         Force PXE boot
+
+                    disk
+
+                         Force boot from BIOS default boot device
+
+                    safe
+
+                         Force   boot   from  BIOS  default  boot
+                         device, request Safe Mode
+
+                    diag
+
+                         Force boot from diagnostic partition
+
+                    cdrom
+
+                         Force boot from CD/DVD
+
+                    bios
+
+                         Force boot into BIOS setup
+
+                    floppy
+
+                         Force boot from Floppy/primary removable
+                         media
+
+          bootparam
+
+               Get  or set various system boot option parameters.
+
+               get <param #>
+
+                    Get boot parameter. Currently supported  val-
+                    ues for <param #> are:
+
+
+
+Duncan Laurie             Last change:                         11
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+                    0 - Set In Progress
+
+                    1 - Service Partition Selector
+
+                    2 - Service Partition Scan
+
+                    3 - BMC Boot Flag Valid Bit Clearing
+
+                    4 - Boot Info Acknowledge
+
+                    5 - Boot Flags
+
+                    6 - Boot Initiator Info
+
+                    7 - Boot Initiator Mailbox
+
+
+               set <option> [value ...]
+
+                    Set boot parameter.
+
+
+                    Currently supported values for <option> are:
+
+                    force_pxe
+
+                         Force PXE boot
+
+                    force_disk
+
+                         Force boot from default hard-drive
+
+                    force_safe
+
+                         Force   boot  from  default  hard-drive,
+                         request Safe Mode
+
+                    force_diag
+
+                         Force boot from diagnostic partition
+
+                    force_cdrom
+
+                         Force boot from CD/DVD
+
+                    force_bios
+
+                         Force boot into BIOS setup
+
+
+     dcmi
+
+
+
+
+Duncan Laurie             Last change:                         12
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+          discover
+
+               This command is used to discover  supported  capa-
+               bilities in DCMI.
+
+
+          power <command>
+
+               Platform power limit command options are:
+
+
+               reading
+
+                    Get power related readings from the system.
+
+               get_limit
+
+                    Get the configured power limits.
+
+               set_limit  <parameter> <value>
+
+                    Set a power limit option.
+
+
+                    Possible parameters/values are:
+
+
+                              SEL | Log Event to SEL>
+                    action  <No Action | Hard Power Off & Log
+                         Event to
+
+                         Exception   Actions  are  taken  as  "No
+                         Action", "Hard Power Off system and  log
+                         events  to  SEL",  or  "Log event to SEL
+                         only".
+
+                    limit <number in Watts>
+
+                         Power Limit Requested in Watts.
+
+                    correction <number in milliseconds>
+
+                         Correction Time Limit in milliseconds.
+
+                    sample <number in seconds>
+
+                         Statistics Sampling period in seconds.
+
+
+               activate
+
+                    Activate the set power limit.
+
+
+
+Duncan Laurie             Last change:                         13
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               deactivate
+
+                    Deactivate the set power limit.
+
+          sensors
+
+               Prints the available DCMI sensors.
+
+          asset_tag
+
+               Prints the platforms asset tag.
+
+          set_asset_tag  <string>
+
+               Sets the platforms asset tag
+
+          get_mc_id_string
+
+               Get management controller identifier string.
+
+          set_mc_id_string  <string>
+
+               Set management controller identifier string.   The
+               maximum length is 64 bytes including a null termi-
+               nator.
+
+          thermalpolicy  [<get | set>]
+
+               Thermal Limit policy get/set.
+
+
+               The commands are:
+
+
+               Get  <entityID> <instanceID>
+
+                    Get Thermal Limit values.
+
+                    entityID is the physical entity that a sensor
+                    or  device is associated with.  instanceID is
+                    a particular instance of an  entity.   Entity
+                    Instance can be in one of two ranges, system-
+                    relative or device-relative.  For example,  a
+                    system  with  four  processors  could  use an
+                    Entity Instance value of "0" to identify  the
+                    first processor.
+
+               Set  <entityID> <instanceID>
+
+                    Set Thermal Limit values.
+
+                    entityID is the physical entity that a sensor
+
+
+
+Duncan Laurie             Last change:                         14
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+                    or device is associated with.  instanceID  is
+                    a  particular  instance of an entity.  Entity
+                    Instance can be in one of two ranges, system-
+                    relative  or device-relative.  For example, a
+                    system with  four  processors  could  use  an
+                    Entity  Instance value of "0" to identify the
+                    first processor.
+
+          get_temp_reading
+
+               Get Temperature Sensor Readings.
+
+          get_conf_param
+
+               Get DCMI Configuration Parameters.
+
+          set_conf_param <parameters>
+
+               Set DCMI Configuration Parameters.
+
+               The Configuration Parameters are:
+
+               activate_dhcp
+
+                    Activate/restart DHCP
+
+               dhcp_config
+
+                    Discover DHCP Configuration.
+
+               init
+
+                    Set DHCP Initial timeout  interval,  in  sec-
+                    onds.   The  recommended default is four sec-
+                    onds.
+
+               timeout
+
+                    Set DHCP Server contact timeout interval,  in
+                    seconds.   The recommended default timeout is
+                    two minutes.
+
+               retry
+
+                    Set DHCP Server contact  retry  interval,  in
+                    seconds.   The recommended default timeout is
+                    sixty-four seconds.
+
+          oob_discover
+
+               Ping/Pong Message for DCMI Discovery.
+
+
+
+
+Duncan Laurie             Last change:                         15
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+name3>] ...
+     ekanalyzer  <command>  <xx=filename1>  <xx=filename2>
+     [<rc=file-
+
+line
+     NOTE : This command can support a maximum of 8 files per
+          command
+
+AMC module
+     filename1 : binary file that stores FRU data of a Carrier
+          or  an
+
+     filename2 : binary file that stores FRU data of an AMC mod-
+          ule.
+                These binary files can be generated from command:
+                ipmitool fru read <id> <filename>
+
+Device ID
+     filename3 : configuration file used  for  configuring  On-
+          Carrier
+          or OEM GUID. This file is optional.
+
+value:
+     xx : indicates the type of the file. It can  take  the  fol-
+          lowing
+
+          oc : On-Carrier device
+
+          a1 : AMC slot A1
+
+          a2 : AMC slot A2
+
+          a3 : AMC slot A3
+
+          a4 : AMC slot A4
+
+          b1 : AMC slot B1
+
+          b2 : AMC slot B2
+
+          b3 : AMC slot B3
+
+          b4 : AMC slot B4
+
+          sm : Shelf Manager
+
+
+     The available commands for ekanalyzer are:
+
+
+     print [<carrier | power | all>]
+
+
+
+
+Duncan Laurie             Last change:                         16
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+          carrier (default) <oc=filename1> <oc=filename2> ...
+
+               Display  point  to  point  physical   connectivity
+               between carriers and AMC modules.
+                Example:
+                  >  ipmitool  ekanalyzer  print  carrier  oc=fru
+               oc=carrierfru
+                  From Carrier file: fru
+                     Number of AMC bays supported by Carrier: 2
+                     AMC slot B1 topology:
+                        Port 0 =====> On  Carrier  Device  ID  0,
+               Port 16
+                        Port  1  =====>  On  Carrier Device ID 0,
+               Port 12
+                        Port 2 =====> AMC slot B2, Port 2
+                     AMC slot B2 topology:
+                        Port 0 =====> On  Carrier  Device  ID  0,
+               Port 3
+                        Port 2 =====> AMC slot B1, Port 2
+                  *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                  From Carrier file: carrierfru
+                     On Carrier Device ID 0 topology:
+                        Port 0 =====> AMC slot B1, Port 4
+                        Port 1 =====> AMC slot B1, Port 5
+                        Port 2 =====> AMC slot B2, Port 6
+                        Port 3 =====> AMC slot B2, Port 7
+                     AMC slot B1 topology:
+                        Port 0 =====> AMC slot B2, Port 0
+                     AMC slot B1 topology:
+                        Port 1 =====> AMC slot B2, Port 1
+                     Number of AMC bays supported by Carrier: 2
+
+
+          power <xx=filename1> <xx=filename2> ...
+
+               Display power supply informations between  carrier
+               and AMC modules.
+
+          all <xx=filename> <xx=filename> ...
+
+               Display  both physical connectivity and power sup-
+               ply of each carrier and AMC modules.
+
+
+     frushow <xx=filename>
+          Convert a binary FRU file into human readable text for-
+          mat. Use -v option to get more display information.
+
+
+     summary [<match | unmatch | all>]
+
+          match (default) <xx=filename> <xx=filename> ...
+
+
+
+Duncan Laurie             Last change:                         17
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               Display  only  matched  results  of  Ekeying match
+               between an On-Carrier device and an AMC module  or
+               between 2 AMC modules. Example:
+                >   ipmitool   ekanalyzer  summary  match  oc=fru
+               b1=amcB1 a2=amcA2
+                On-Carrier Device vs AMC slot B1
+                 AMC slot B1 port 0 ==> On-Carrier Device 0  port
+               16
+                  Matching Result
+                  - From On-Carrier Device ID 0
+                   -Channel ID 11 || Lane 0: enable
+                   -Link Type: AMC.2 Ethernet
+                   -Link   Type  extension:  1000BASE-BX  (SerDES
+               Gigabit) Ethernet link
+                   -Link Group ID: 0 || Link Asym.  Match:  exact
+               match
+                  - To AMC slot B1
+                   -Channel ID 0 || Lane 0: enable
+                   -Link Type: AMC.2 Ethernet
+                   -Link   Type  extension:  1000BASE-BX  (SerDES
+               Gigabit) Ethernet link
+                   -Link Group ID: 0 || Link Asym.  Match:  exact
+               match
+                  *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                 AMC slot B1 port 1 ==> On-Carrier Device 0  port
+               12
+                  Matching Result
+                  - From On-Carrier Device ID 0
+                   -Channel ID 6 || Lane 0: enable
+                   -Link Type: AMC.2 Ethernet
+                   -Link   Type  extension:  1000BASE-BX  (SerDES
+               Gigabit) Ethernet link
+                   -Link Group ID: 0 || Link Asym.  Match:  exact
+               match
+                  - To AMC slot B1
+                   -Channel ID 1 || Lane 0: enable
+                   -Link Type: AMC.2 Ethernet
+                   -Link   Type  extension:  1000BASE-BX  (SerDES
+               Gigabit) Ethernet link
+                   -Link Group ID: 0 || Link Asym.  Match:  exact
+               match
+                  *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                On-Carrier Device vs AMC slot A2
+                 AMC slot A2 port 0 ==> On-Carrier Device 0  port
+               3
+                  Matching Result
+                  - From On-Carrier Device ID 0
+                   -Channel ID 9 || Lane 0: enable
+                   -Link Type: AMC.2 Ethernet
+                   -Link   Type  extension:  1000BASE-BX  (SerDES
+               Gigabit) Ethernet link
+                   -Link Group ID: 0 || Link Asym.  Match:  exact
+
+
+
+Duncan Laurie             Last change:                         18
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               match
+                  - To AMC slot A2
+                   -Channel ID 0 || Lane 0: enable
+                   -Link Type: AMC.2 Ethernet
+                   -Link   Type  extension:  1000BASE-BX  (SerDES
+               Gigabit) Ethernet link
+                   -Link Group ID: 0 || Link Asym.  Match:  exact
+               match
+                  *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+                AMC slot B1 vs AMC slot A2
+                 AMC slot A2 port 2 ==> AMC slot B1 port 2
+                  Matching Result
+                  - From AMC slot B1
+                   -Channel ID 2 || Lane 0: enable
+                   -Link Type: AMC.3 Storage
+                   -Link Type  extension:  Serial  Attached  SCSI
+               (SAS/SATA)
+                   -Link  Group  ID: 0 || Link Asym. Match: FC or
+               SAS interface {exact match}
+                  - To AMC slot A2
+                   -Channel ID 2 || Lane 0: enable
+                   -Link Type: AMC.3 Storage
+                   -Link Type  extension:  Serial  Attached  SCSI
+               (SAS/SATA)
+                   -Link  Group  ID: 0 || Link Asym. Match: FC or
+               SAS interface {exact match}
+                *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+          unmatch <xx=filename> <xx=filename> ...
+
+               Display  the  unmatched  results  of Ekeying match
+               between an On-Carrier device and an AMC module  or
+               between 2 AMC modules
+
+          all <xx=filename> <xx=filename> ...
+
+               Display  both matched result and unmatched results
+               of Ekeying match between two cards or two modules.
+
+     ime
+
+     help
+
+          Print usage information
+
+     info   Displays  information  about the Manageability Engine
+          (ME)
+
+     update <file>
+
+          Upgrade the ME firmware with the specified image file
+          WARNING You MUST use a supported image provided by your
+
+
+
+Duncan Laurie             Last change:                         19
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+          board vendor
+
+     rollback
+
+          Perform manual rollback of the ME firmware
+
+
+
+     delloem
+
+     The  delloem  commands  provide information on Dell-specific
+     features.
+
+     setled {b:d.f} {state..}
+
+          Sets the drive backplane LEDs for a device.
+          {b:d.f} = PCI Address of device (eg. 06:00.0)
+          {state} = one or more of the following:
+               online | present | hotspare | identify |  rebuild-
+               ing | fault | predict | critical | failed
+
+
+     lcd
+          set {mode}|{lcdqualifier}|{errordisplay}
+
+               Allows  you  to  set the LCD mode and user-defined
+               string.
+
+          lcd set mode
+               {none}|{modelname}|{ipv4address}|{macaddress}|
+               {systemname}|{servicetag}|{ipv6address}|
+               {ambienttemp}|{systemwatt}|{assettag}|
+               {userdefined}<text>
+
+               Allows you to set the LCD display mode to  any  of
+               the preceding parameters.
+
+
+          lcd set lcdqualifier
+               {watt}|{btuphr}|
+               {celsius}|{fahrenheit}
+
+               Allows  you to set the unit for the system ambient
+               temperature mode.
+
+
+          lcd set errordisplay
+               {sel}|{simple}
+
+               Allows you to set the error display.
+
+          lcd info
+
+
+
+Duncan Laurie             Last change:                         20
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               Displays the LCD screen information.
+
+          lcd set vkvm
+               {active}|{inactive}
+
+               Allows you to set the vKVM  status  to  active  or
+               inactive.  When  it  is  active  and session is in
+               progress, a message appears on LCD.
+
+          lcd status
+
+               Displays the LCD status for vKVM display active or
+               inactive  and Front Panel access mode (viewandmod-
+               ify, view-only or disabled).
+
+     mac
+
+          Displays the information about the system NICs.
+
+          mac list
+
+               Displays the NIC MAC address  and  status  of  all
+               NICs. It also displays the DRAC/iDRAC MAC address.
+
+
+          mac get
+               <NIC number>
+
+               Displays the selected NICs MAC address and status.
+
+     lan
+          Displays the information of Lan.
+
+
+          lan set
+               <Mode>
+
+               Sets  the  NIC  selection  mode (dedicated, shared
+               with   lom1,   shared   with   lom2,shared    with
+               lom3,shared   with   lom4,shared   with   failover
+               lom1,shared   with   failover   lom2,shared   with
+               failover  lom3,shared  with  failover  lom4,shared
+               with  Failover  all  loms,  shared  with  Failover
+               None).
+
+          lan get
+
+               Returns the current NIC selection mode (dedicated,
+               shared with lom1, shared with  lom2,  shared  with
+               lom3,  shared with lom4,shared with failover lom1,
+               shared with  failover  lom2,shared  with  failover
+               lom3,shared   with   failover   lom4,shared   with
+
+
+
+Duncan Laurie             Last change:                         21
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               Failover all loms,shared with Failover None).
+
+
+          lan get active
+
+               Returns the current active NIC  (dedicated,  LOM1,
+               LOM2, LOM3 or LOM4).
+
+     powermonitor
+
+          Displays power tracking statistics.
+
+
+          powermonitor clear cumulativepower
+
+               Reset cumulative power reading.
+
+          powermonitor clear peakpower
+
+               Reset peak power reading.
+
+          powermonitor powerconsumption
+               <watt>|<btuphr>
+               Displays  the power consumption in watt or btuphr.
+
+          powermonitor powerconsumptionhistory
+               <watt>|<btuphr>
+               Displays the power consumption history in watt  or
+               btuphr.
+
+          powermonitor getpowerbudget
+               <watt>|<btuphr>
+               Displays the power cap in watt or btuphr.
+
+          powermonitor setpowerbudget
+               <val><watt|btuphr|percent>
+               Allows  you  to set the  power cap in watt, BTU/hr
+               or percentage.
+
+          powermonitor enablepowercap
+               Enables set power cap.
+
+          powermonitor disablepowercap
+
+               Disables set power cap.
+
+
+     windbg
+          windbg start
+               Starts the windbg session (Cold Reset & SOL  Acti-
+               vation)
+          windbg end
+
+
+
+Duncan Laurie             Last change:                         22
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+               Ends the windbg session (SOL Deactivation)
+
+
+     vFlash info Card
+
+          Shows Extended SD Card information
+
+     The ipmitool open interface  utilizes  the  OpenIPMI  kernel
+     device driver.  This driver is present in all modern 2.4 and
+     all 2.6 kernels and it should be  present  in  recent  Linux
+     distribution  kernels.   There  are  also IPMI driver kernel
+     patches for different kernel  versions  available  from  the
+     OpenIPMI homepage.
+
+     The  required  kernel  modules  is different for 2.4 and 2.6
+     kernels.  The following kernel modules must be loaded  on  a
+     2.4-based kernel in order for ipmitool to work:
+
+     ipmi_msghandler
+          Incoming  and  outgoing message handler for IPMI inter-
+          faces.
+
+     ipmi_kcs_drv
+          An IPMI Keyboard Controler Style (KCS) interface driver
+          for the message handler.
+
+     ipmi_devintf
+          Linux  character  device interface for the message han-
+          dler.
+
+     The following kernel modules must be loaded on  a  2.6-based
+     kernel in order for ipmitool to work:
+
+     ipmi_msghandler
+          Incoming  and  outgoing message handler for IPMI inter-
+          faces.
+
+     ipmi_si
+          An IPMI system interface driver for  the  message  han-
+          dler.   This module supports various IPMI system inter-
+          faces such as KCS, BT, SMIC, and even SMBus in 2.6 ker-
+          nels.
+
+     ipmi_devintf
+          Linux  character  device interface for the message han-
+          dler.
+
+     Once the required modules are loaded there will be a dynamic
+     character  device  entry that must exist at /dev/ipmi0.  For
+     systems  that  use  devfs  or  udev  this  will  appear   at
+     /dev/ipmi/0.
+
+
+
+
+Duncan Laurie             Last change:                         23
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+     To create the device node first determine what dynamic major
+     number  it  was  assigned  by  the  kernel  by  looking   in
+     /proc/devices  and  checking for the ipmidev entry.  Usually
+     if this is the first dynamic device it will be major  number
+     254 and the minor number for the first system interface is 0
+     so you would create the device entry with:
+
+     mknod /dev/ipmi0 c 254 0
+
+     ipmitool includes some sample  initialization  scripts  that
+     can perform this task automatically at start-up.
+
+     In  order to have ipmitool use the OpenIPMI device interface
+     you can specifiy it on the command line:
+
+     ipmitool -I open <command>
+
+BMC INTERFACE
+     The ipmitool bmc interface utilizes the bmc device driver as
+     provided  by Solaris 10 and higher.  In order to force ipmi-
+     tool to make use of this interface you can specify it on the
+     command line:
+
+     ipmitool -I bmc <command>
+
+     The following files are associated with the bmc driver:
+
+
+     /platform/i86pc/kernel/drv/bmc
+          32-bit ELF kernel module for the bmc driver.
+
+     /platform/i86pc/kernel/drv/amd64/bmc
+          64-bit ELF kernel module for the bmc driver.
+
+     /dev/bmc
+          Character  device node used to communicate with the bmc
+          driver.
+
+LIPMI INTERFACE
+     The ipmitool lipmi interface uses the Solaris 9 IPMI  kernel
+     device driver.  It has been superceeded by the bmc interface
+     on Solaris 10.  You can tell ipmitool to use this  interface
+     by specifying it on the command line.
+
+     ipmitool -I lipmi <expression>
+
+LAN INTERFACE
+     The ipmitool lan interface communicates with the BMC over an
+     Ethernet LAN connection using UDP under IPv4.  UDP datagrams
+     are formatted to contain IPMI request/response messages with
+     a IPMI session headers and RMCP headers.
+
+
+
+
+Duncan Laurie             Last change:                         24
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+     IPMI-over-LAN uses version 1 of the Remote  Management  Con-
+     trol Protocol (RMCP) to support pre-OS and OS-absent manage-
+     ment.  RMCP is a request-response protocol  delivered  using
+     UDP datagrams to port 623.
+
+     The LAN interface is an authenticatiod multi-session connec-
+     tion; messages delivered to the  BMC  can  (and  should)  be
+     authenticated with a challenge/response protocol with either
+     straight  password/key  or  MD5  message-digest   algorithm.
+     ipmitool  will  attempt to connect with administrator privi-
+     lege level as this is  required  to  perform  chassis  power
+     functions.
+
+     You  can  tell ipmitool to use the lan interface with the -I
+     lan option:
+
+
+     ipmitool -I lan -H <hostname>  [-U  <username>]  [-P  <pass-
+     word>] <command>
+
+     A hostname must be given on the command line in order to use
+     the lan interface with  ipmitool.   The  password  field  is
+     optional;  if  you  do not provide a password on the command
+     line, ipmitool will attempt to connect  without  authentica-
+     tion.  If you specify a password it will use MD5 authentica-
+     tion if supported by the BMC and straight password/key  oth-
+     erwise, unless overridden with a command line option.
+
+LANPLUS INTERFACE
+     Like  the  lan interface, the lanplus interface communicates
+     with the BMC over an Ethernet LAN connection using UDP under
+     IPv4.  The difference is that the lanplus interface uses the
+     RMCP+ protocol as described in the IPMI v2.0  specification.
+     RMCP+  allows for improved authentication and data integrity
+     checks, as well as encryption and the ability to carry  mul-
+     tiple  types  of  payloads.  Generic Serial Over LAN support
+     requires  RMCP+,  so  the  ipmitool  sol  activate   command
+     requires the use of the lanplus interface.
+
+     RMCP+   session   establishment   uses   a  symmetric  chal-
+     lenge-response protocol called  RAKP  (Remote  Authenticated
+     Key-Exchange  Protocol) which allows the negotiation of many
+     options.  ipmitool does not yet allow the  user  to  specify
+     the  value  of  every option, defaulting to the most obvious
+     settings marked  as  required  in  the  v2.0  specification.
+     Authentication  and  integrity HMACS are produced with SHA1,
+     and encryption is performed  with  AES-CBC-128.   Role-level
+     logins are not yet supported.
+
+     ipmitool must be linked with the OpenSSL library in order to
+     perform the encryption functions  and  support  the  lanplus
+     interface.   If  the required packages are not found it will
+
+
+
+Duncan Laurie             Last change:                         25
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+     not be compiled in and supported.
+
+     You can tell ipmitool to use the lanplus interface with  the
+     -I lanplus option:
+
+
+     ipmitool -I lanplus -H <hostname> [-U <username>] [-P <pass-
+     word>] <command>
+
+     A hostname must be given on the command line in order to use
+     the  lan interface with ipmitool.  With the exception of the
+     -A and -C options the rest of the command line  options  are
+     identical to those available for the lan interface.
+
+     The   -C  option  allows  you  specify  the  authentication,
+     integrity, and encryption algorithms to use for for  lanplus
+     session  based  on the cipher suite ID found in the IPMIv2.0
+     specification in table 22-19.  The default cipher suite is 3
+     which  specifies RAKP-HMAC-SHA1 authentication, HMAC-SHA1-96
+     integrity, and AES-CBC-128 encryption algorightms.
+
+
+FREE INTERFACE
+     The  ipmitool   free   interface   utilizes   the   FreeIPMI
+     libfreeipmi drivers.
+
+     You can tell ipmitool to use the FreeIPMI interface with the
+     -I option:
+
+     ipmitool -I free <command>
+
+
+
+IMB INTERFACE
+     The ipmitool imb interface supports  the  Intel  IMB  (Intel
+     Inter-module Bus) Interface through the /dev/imb device.
+
+     You  can  tell ipmitool to use the IMB interface with the -I
+     option:
+
+     ipmitool -I imb <command>
+
+
+EXAMPLES
+     Example 1: Listing remote sensors
+
+          > ipmitool -I lan -H 1.2.3.4 -f passfile sdr list
+          Baseboard 1.25V  | 1.24 Volts        | ok
+          Baseboard 2.5V   | 2.49 Volts        | ok
+          Baseboard 3.3V   | 3.32 Volts        | ok
+
+     Example 2: Displaying status of a remote sensor
+
+
+
+Duncan Laurie             Last change:                         26
+
+
+
+
+
+
+User Commands                                         ipmitool(1)
+
+
+
+          > ipmitool -I lan -H 1.2.3.4  -f  passfile  sensor  get
+          "Baseboard 1.25V"
+          Locating sensor record...
+          Sensor ID              : Baseboard 1.25V (0x10)
+          Sensor Type (Analog)   : Voltage
+          Sensor Reading         : 1.245 (+/- 0.039) Volts
+          Status                 : ok
+          Lower Non-Recoverable  : na
+          Lower Critical         : 1.078
+          Lower Non-Critical     : 1.107
+          Upper Non-Critical     : 1.382
+          Upper Critical         : 1.431
+          Upper Non-Recoverable  : na
+
+     Example 3: Displaying the power status of a remote chassis
+
+          >  ipmitool -I lan -H 1.2.3.4 -f passfile chassis power
+          status
+          Chassis Power is on
+
+     Example 4: Controlling the power on a remote chassis
+
+          > ipmitool -I lan -H 1.2.3.4 -f passfile chassis  power
+          on
+          Chassis Power Control: Up/On
+
+AUTHOR
+     Duncan Laurie <duncan@iceblink.org>
+
+SEE ALSO
+     IPMItool Homepage
+          http://ipmitool.sourceforge.net
+
+     Intelligent Platform Management Interface Specification
+          http://www.intel.com/design/servers/ipmi
+
+     OpenIPMI Homepage
+          http://openipmi.sourceforge.net
+
+     FreeIPMI Homepage
+          http://www.gnu.org/software/freeipmi/
+
+
+
+
+
+
+Duncan Laurie             Last change:                         27
