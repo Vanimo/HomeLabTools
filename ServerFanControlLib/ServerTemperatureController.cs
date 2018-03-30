@@ -96,7 +96,7 @@ namespace ServerFanControlLib
 
             var controlTemp = Convert.ToInt32(actualTemps.Ambient);
             var setFanSpeed = m_ipmiServer.GetSpeedForTemperature(controlTemp);
-            m_previousSpeed = R710SpeedConverter.FanSpeedFromIpmiSpeed(m_ipmiServer.GetSpeedForTemperature(setFanSpeed));
+            m_previousSpeed = R710SpeedConverter.FanSpeedFromIpmiSpeed(setFanSpeed);
 
             var result = new UpdateResult(m_previousSpeed, m_ipmiServer.m_address)
             {

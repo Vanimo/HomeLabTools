@@ -41,7 +41,7 @@ namespace ServerFanControlLib
 
             foreach (var result in await Task.WhenAll(tasks))
             {
-                EventLogger.Instance.Log("Updated Server " + result.ServerDestination + " with status " + result.SimpleStatus + " and temperature=" + result.CurrentTemperature + "°C and fan speed=" + result.CurrentFanSpeed + "rpm");
+                DebugLogger.Instance.Log("Updated Server " + result.ServerDestination + " with status " + result.SimpleStatus + " and temperature=" + result.CurrentTemperature + "°C and fan speed=" + result.CurrentFanSpeed + "~rpm");
             }
         }
 
