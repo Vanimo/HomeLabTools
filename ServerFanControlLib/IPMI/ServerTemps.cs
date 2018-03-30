@@ -31,7 +31,7 @@ namespace ServerFanControlLib
         public static Single? ParseTemperature(string sTemp)
         {
             sTemp = sTemp.Trim().ToUpperInvariant();
-            if (!sTemp.EndsWith("C"))
+            if (sTemp.EndsWith("F"))
             {
                 return ParseFromFahrenheit(sTemp);
             }

@@ -22,11 +22,9 @@ namespace ServerFanControlLib.IPMI
             {
                 process.StartInfo = m_server.GetTemperaturePSI();
                 process.Start();
-
-                int iLine = 0;
+                
                 while (!process.StandardOutput.EndOfStream)
                 {
-                    iLine++;
                     var line = process.StandardOutput.ReadLine();
 
                     if (line == null)
@@ -58,7 +56,7 @@ namespace ServerFanControlLib.IPMI
             }
 
             Process.Start(m_server.GetFixedSpeedPSI(temperature));
-            //EventLogger.Instance.Log("Set fan speed for server " + m_server.m_address + " with temperature " + temperature + " degC");
+            EventLogger.Instance.Log("Set fan speed for server " + m_server.m_address + " with temperature " + temperature + " degC");
         }
 
         public void SetAutomaticFanControl()

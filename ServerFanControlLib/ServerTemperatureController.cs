@@ -114,11 +114,13 @@ namespace ServerFanControlLib
                 }
                 else
                 {
+                    DebugLogger.Instance.Log("ServerTemperatureController.InternalUpdate", "Temperature didn't change, did not touch fan speed.");
                     result.SimpleStatus = UpdateResult.Status.NoChange;
                 }
             }
             else
             {
+                DebugLogger.Instance.Log("ServerTemperatureController.InternalUpdate", "Temperature is too high, setting automatic control.");
                 ipmiController.SetAutomaticFanControl();
                 result.SimpleStatus = UpdateResult.Status.ChangeToAutomatic;
                 m_wasAutomatic = true;

@@ -39,7 +39,7 @@ namespace ServerFanControlLib.IPMI
             CmdSetAutomaticControl = IpmiTool.GetCLAFanControl(m_address, m_user, m_pwd, false);
             CmdSetManualControl = IpmiTool.GetCLAFanControl(m_address, m_user, m_pwd, true);
 
-            TemperatureRegex = IpmiTool.GetTemperatureRegex();
+            TemperatureRegex = IpmiTool.GetSensorReadingRegex();
 
             InitializeDefaultSpeedControl();
         }

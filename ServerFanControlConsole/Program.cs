@@ -22,6 +22,8 @@ namespace ServerFanControlConsole
         /// <param name="args">-R to keep running indefinately, unless escape is pressed</param>
         static void Main(string[] args)
         {
+            Console.Title = "Homelab Fan Control";
+
             m_config = XmlHelper.GetOrCreateConfig();
             
             UpdateServiceFromConfig();
