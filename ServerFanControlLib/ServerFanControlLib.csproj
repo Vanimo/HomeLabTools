@@ -44,7 +44,6 @@
     <Compile Include="IPMI\IPMIController.cs" />
     <Compile Include="IPMI\IpmiServer.cs" />
     <Compile Include="IPMI\IpmiTool.cs" />
-    <Compile Include="IPMI\IpmiUtil.cs" />
     <Compile Include="IPMI\SpeedConverter.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,36 +76,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Dependencies\bmc\ipmitool.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ievents.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ipmiutil.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ipmiutil.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ipmiutillib.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\libeay32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\showselmsg.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ssleay32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ipmiutil.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ipmiutillib.exp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Dependencies\ipmiutil\ipmiutillib.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="IPMI\IpmiTool_Doc.txt" />
