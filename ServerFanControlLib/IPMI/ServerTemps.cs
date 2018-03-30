@@ -36,7 +36,8 @@ namespace ServerFanControlLib
                 return ParseFromFahrenheit(sTemp);
             }
 
-            sTemp = sTemp.TrimEnd(' ', 'C');
+            sTemp = sTemp.Split(' ')[0];
+            sTemp = sTemp.TrimEnd('C');
 
             if (Single.TryParse(
                 sTemp,
@@ -57,7 +58,8 @@ namespace ServerFanControlLib
                 return null;
             }
 
-            sTemp = sTemp.TrimEnd(' ', 'F');
+            sTemp = sTemp.Split(' ')[0];
+            sTemp = sTemp.TrimEnd('F');
 
             if (Single.TryParse(
                 sTemp,

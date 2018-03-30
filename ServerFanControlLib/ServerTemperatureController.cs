@@ -50,7 +50,12 @@ namespace ServerFanControlLib
             }
         }
 
-        public async Task<UpdateResult> Update()
+        public UpdateResult Update()
+        {
+            return InternalUpdate();
+        }
+
+        public async Task<UpdateResult> UpdateAsync()
         {
             return await Task.Run(() => InternalUpdate());
         }

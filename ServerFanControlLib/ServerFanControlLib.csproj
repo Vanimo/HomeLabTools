@@ -49,7 +49,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerTemperatureController.cs" />
-    <Compile Include="ServerTemps.cs" />
+    <Compile Include="IPMI\ServerTemps.cs" />
     <Compile Include="XML\XmlConfig.cs" />
     <Compile Include="XML\MyXmlSerializer.cs" />
     <Compile Include="XML\XmlHelper.cs" />

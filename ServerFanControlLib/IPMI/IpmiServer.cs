@@ -34,11 +34,12 @@ namespace ServerFanControlLib.IPMI
             m_user = serverConfig.Username;
             m_pwd = serverConfig.Password;
 
-            CmdGetTemperature = IpmiUtil.GetCLATemperature(m_address, m_user, m_pwd);
+            //CmdGetTemperature = IpmiUtil.GetCLATemperature(m_address, m_user, m_pwd);
+            CmdGetTemperature = IpmiTool.GetCLATemperature(m_address, m_user, m_pwd);
             CmdSetAutomaticControl = IpmiTool.GetCLAFanControl(m_address, m_user, m_pwd, false);
             CmdSetManualControl = IpmiTool.GetCLAFanControl(m_address, m_user, m_pwd, true);
 
-            TemperatureRegex = IpmiUtil.GetTemperatureRegex();
+            TemperatureRegex = IpmiTool.GetTemperatureRegex();
 
             InitializeDefaultSpeedControl();
         }

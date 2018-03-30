@@ -23,14 +23,8 @@ namespace ServerFanControlConsole
         static void Main(string[] args)
         {
             m_config = XmlHelper.GetOrCreateConfig();
-
-            m_pingTimer = new Timer(m_config.Interval * 1000);
-            m_pingTimer.Elapsed += PingTimer_Tick;
-            m_pingTimer.Start();
-
+            
             UpdateServiceFromConfig();
-
-            PingTimer_Tick(null, EventArgs.Empty);
             
             var bKeepRunning = false;
             if (args != null && args.Length > 0)
@@ -39,6 +33,10 @@ namespace ServerFanControlConsole
                 if (args[0] == "-R")
                 {
                     bKeepRunning = true;
+
+                    m_pingTimer = new Timer(m_config.Interval * 1000);
+                    m_pingTimer.Elapsed += PingTimer_Tick;
+                    m_pingTimer.Start();
                 }
 
                 // A for automatic
@@ -65,7 +63,7 @@ namespace ServerFanControlConsole
         {
             var newInterval = m_config.Interval * 1000.0;
 
-            if (Math.Abs(newInterval - m_pingTimer.Interval) > 1)
+            if (m_pingTimer != null && Math.Abs(newInterval - m_pingTimer.Interval) > 1)
             {
                 m_pingTimer.Interval = newInterval;
             }
@@ -75,14 +73,14 @@ namespace ServerFanControlConsole
 
         private static void UpdateOnce()
         {
-            Cluster.UpdateAllServers().Wait();
+            Cluster.UpdateAllServers();
         }
         
         private static void PingTimer_Tick(object sender, EventArgs e)
         {
             try
             {
-                Cluster.UpdateAllServers();
+                Cluster.UpdateAllServersAsync();
             }
             catch (Exception ex)
             {

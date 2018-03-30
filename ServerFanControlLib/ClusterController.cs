@@ -21,13 +21,22 @@ namespace ServerFanControlLib
             }
         }
 
-        public async Task UpdateAllServers()
+        public void UpdateAllServers()
+        {
+            foreach (var server in m_serverTemperatureControllers)
+            {
+                var result = server.Update();
+                EventLogger.Instance.Log("Updated Server " + result.ServerDestination + " with status " + result.SimpleStatus + " and temperature=" + result.CurrentTemperature + "°C and fan speed=" + result.CurrentFanSpeed + "rpm");
+            }
+        }
+
+        public async Task UpdateAllServersAsync()
         {
             var tasks = new List<Task<ServerTemperatureController.UpdateResult>>();
 
             foreach (var server in m_serverTemperatureControllers)
             {
-                tasks.Add(server.Update());
+                tasks.Add(server.UpdateAsync());
             }
 
             foreach (var result in await Task.WhenAll(tasks))

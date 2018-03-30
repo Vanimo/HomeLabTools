@@ -36,12 +36,6 @@ namespace ServerFanControlLib.IPMI
 
                     if (preFilter)
                     {
-                        if (iLine < 6)
-                        {
-                            // Skip header
-                            continue;
-                        }
-
                         if (!line.Contains("Ambient") && !line.Contains("Planar"))
                         {
                             continue;

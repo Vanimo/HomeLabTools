@@ -97,7 +97,7 @@ namespace ServerFanControlService
         {
             try
             {
-                m_cluster.UpdateAllServers();
+                m_cluster.UpdateAllServersAsync();
             }
             catch (Exception ex)
             {
