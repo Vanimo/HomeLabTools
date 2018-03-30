@@ -55,6 +55,12 @@ namespace ServerFanControlLib
             return await Task.Run(() => InternalUpdate());
         }
 
+        public void SetToAutomatic()
+        {
+            var ipmiController = new IPMIController(m_ipmiServer);
+            ipmiController.SetAutomaticFanControl();
+        }
+
         private UpdateResult InternalUpdate()
         {
             var ipmiController = new IPMIController(m_ipmiServer);

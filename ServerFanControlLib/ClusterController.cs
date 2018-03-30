@@ -21,7 +21,7 @@ namespace ServerFanControlLib
             }
         }
 
-        public async void UpdateAllServers()
+        public async Task UpdateAllServers()
         {
             var tasks = new List<Task<ServerTemperatureController.UpdateResult>>();
 
@@ -33,6 +33,14 @@ namespace ServerFanControlLib
             foreach (var result in await Task.WhenAll(tasks))
             {
                 EventLogger.Instance.Log("Updated Server " + result.ServerDestination + " with status " + result.SimpleStatus + " and temperature=" + result.CurrentTemperature + "°C and fan speed=" + result.CurrentFanSpeed + "rpm");
+            }
+        }
+
+        public void ChangeAllToAutomatic()
+        {
+            foreach (var server in m_serverTemperatureControllers)
+            {
+                server.SetToAutomatic();
             }
         }
     }

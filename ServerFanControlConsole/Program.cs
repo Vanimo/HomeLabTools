@@ -35,11 +35,21 @@ namespace ServerFanControlConsole
             var bKeepRunning = false;
             if (args != null && args.Length > 0)
             {
+                // R for repeat
                 if (args[0] == "-R")
                 {
                     bKeepRunning = true;
                 }
+
+                // A for automatic
+                if (args[0] == "-A")
+                {
+                    Cluster.ChangeAllToAutomatic();
+                    return;
+                }
             }
+
+            UpdateOnce();
 
             while (bKeepRunning)
             {
@@ -61,6 +71,11 @@ namespace ServerFanControlConsole
             }
 
             Cluster.LoadServers(m_config.Servers);
+        }
+
+        private static void UpdateOnce()
+        {
+            Cluster.UpdateAllServers().Wait();
         }
         
         private static void PingTimer_Tick(object sender, EventArgs e)
