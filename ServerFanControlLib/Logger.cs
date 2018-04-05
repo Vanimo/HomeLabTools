@@ -56,6 +56,23 @@ namespace ServerFanControlLib.Loggers
                 return v.Length > MaxFileSize;
             }
         }
+
+        public void MoveFile(String from, String to)
+        {
+            lock (m_logLock)
+            {
+                if (!File.Exists(from))
+                {
+                    return;
+                }
+
+                try
+                {
+                    File.Move(from, to);
+                }
+                catch { }
+            }
+        }
     }
 
     public abstract class LogHandler
@@ -64,6 +81,8 @@ namespace ServerFanControlLib.Loggers
         private readonly String m_baseName;
         private readonly String m_extension;
         private const Int32 HistoryCount = 2;
+        private readonly Object m_logLock = new Object();
+        private Boolean m_isMovingFiles = false;
 
         public LogHandler(string baseName, string extension)
         {
@@ -92,13 +111,21 @@ namespace ServerFanControlLib.Loggers
                 return;
             }
 
-            for (var i = HistoryCount - 1; i >= 0; i++)
+            if (m_isMovingFiles)
             {
-                try
+                return;
+            }
+
+            lock (m_logLock)
+            {
+                m_isMovingFiles = true;
+
+                for (var i = HistoryCount - 1; i >= 0; i--)
                 {
-                    File.Move(FileName(i), FileName(i + 1));
+                    m_logger.MoveFile(FileName(i), FileName(i + 1));
                 }
-                catch { }
+
+                m_isMovingFiles = false;
             }
         }
 
