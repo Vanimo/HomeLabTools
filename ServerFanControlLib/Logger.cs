@@ -12,7 +12,7 @@ namespace ServerFanControlLib.Loggers
     internal class Logger : LoggerBase
     {
         private readonly String filePath;
-        private readonly Object m_logLock = new Object();
+        private static readonly Object m_logLock = new Object();
         private Int32 logCounter = 0;
 
         private const int MaxFileSize = 10485760;
@@ -26,17 +26,26 @@ namespace ServerFanControlLib.Loggers
         {
             lock (m_logLock)
             {
-                using (var sw = new StreamWriter(filePath, true, Encoding.UTF8))
-                {
-                    sw.WriteAsync(DateTime.UtcNow.ToString("s"));
-                    foreach (var part in messageParts)
-                    {
-                        sw.WriteAsync("|");
-                        sw.WriteAsync(part);
-                    }
+                //using (var sw = new StreamWriter(filePath, true, Encoding.UTF8))
+                //{
+                //    sw.WriteAsync(DateTime.UtcNow.ToString("s"));
+                //    foreach (var part in messageParts)
+                //    {
+                //        sw.WriteAsync("|");
+                //        sw.WriteAsync(part);
+                //    }
 
-                    sw.WriteLineAsync();
+                //    sw.WriteLineAsync();
+                //}
+
+                Console.Write(DateTime.UtcNow.ToString("s"));
+                foreach (var part in messageParts)
+                {
+                    Console.Write("|");
+                    Console.Write(part);
                 }
+
+                Console.WriteLine();
             }
 
             logCounter++;

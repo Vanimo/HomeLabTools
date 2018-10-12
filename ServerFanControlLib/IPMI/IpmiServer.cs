@@ -87,9 +87,13 @@ namespace ServerFanControlLib.IPMI
             AddSpeedToDictionaries(reference, 22, 5);
             AddSpeedToDictionaries(reference, 23, 6);
             AddSpeedToDictionaries(reference, 24, 7);
-            AddSpeedToDictionaries(reference, 25, 12);
-            AddSpeedToDictionaries(reference, 26, 17);
-            m_upperBound = 26;
+            AddSpeedToDictionaries(reference, 25, 9);
+            AddSpeedToDictionaries(reference, 26, 11);
+            AddSpeedToDictionaries(reference, 27, 13);
+            AddSpeedToDictionaries(reference, 28, 15);
+            AddSpeedToDictionaries(reference, 29, 17);
+            AddSpeedToDictionaries(reference, 30, 19);
+            m_upperBound = 30;
         }
 
         private void AddSpeedToDictionaries(String ipmiReference, Int32 temp, Int16 speed)
